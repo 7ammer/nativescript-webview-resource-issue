@@ -22,6 +22,11 @@
                 return encodeURI("file:///" + fileSystemModule.knownFolders.currentApp().path + "/" + path);
             },
 
+	        readSync(path) {
+		        let file = fileSystemModule.knownFolders.currentApp().getFile(path);
+		        return file.readTextSync();
+	        },
+
             processHTML(html) {
                 return `
 					<html>
@@ -29,7 +34,10 @@
 							<meta charset="UTF-8">
 							<meta http-equiv="X-UA-Compatible" content="ie=edge">
 							<meta name="HandheldFriendly" content="True">
-							<link href="${this.currentApp('assets/webview/basic.css')}" rel="stylesheet">
+
+							<style>
+								${this.readSync('assets/webview/basic.css')}
+							</style>
 						</head>
 						<body class="generic-page-theme">
 							<div id="updatable">
